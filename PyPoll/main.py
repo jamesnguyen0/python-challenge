@@ -20,7 +20,7 @@ with open(pybank_csv) as csvfile:
     csvreader = csv.reader(csvfile, delimiter = ",")
 
     #skip header   
-    next(csvreader)
+    header = next(csvreader)
     
     #loop through each row
     for row in csvreader:
