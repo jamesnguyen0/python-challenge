@@ -11,9 +11,6 @@ candidateList = []
 candidateVotes = []
 candidatePercent = []
 
-
-
-
 #read files
 pybank_csv = os.path.join("Resources","election_data.csv")
 with open(pybank_csv) as csvfile:
