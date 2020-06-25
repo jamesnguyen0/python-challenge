@@ -5,11 +5,7 @@ import csv
 #variables
 totalVotes = 0
 winner = ""
-
-candidateID = 0
-candidateList = []
-candidateVotes = []
-candidatePercent = []
+myCandidates = {}
 
 #read files
 pybank_csv = os.path.join("Resources","election_data.csv")
@@ -21,37 +17,29 @@ with open(pybank_csv) as csvfile:
     
     #loop through each row
     for row in csvreader:
-        #if candidate is not in list already, add to list and increment voter total
-        if not(row[2] in candidateList):
-            candidateList.append(row[2])
-            candidateVotes.append(1)
+        #if candidate is not already in dict key list, create key and increment voter totals
+        if not(row[2] in myCandidates.keys()):    
+            myCandidates[row[2]] = 1
             totalVotes += 1
-        
-        #if candidate is already in list, just increment voter total
+        #else if candidate is already in dict key list, just increment voter totals
         else:
-            candidateVotes[candidateList.index(row[2])] += 1
+            myCandidates[row[2]] += 1
             totalVotes += 1
-
-    #calculate voter %s
-    for i in range(len(candidateList)):
-        candidatePercent.append(str("{:.3%}".format(candidateVotes[i]/totalVotes))) 
 
     #calculate winner
     temp = 0
-    for i in range(len(candidateVotes)):
-        if candidateVotes[i] > temp:
-            temp = candidateVotes[i]
-            candidateID = i
-    
-    winner = candidateList[candidateID]
+    for i in myCandidates:
+        if myCandidates[i] > temp:
+            temp = myCandidates[i]
+            winner = i
 
     #output to console
     print("Election Results")
     print("-------------------------")
     print(f"Total Votes: {totalVotes}")
     print("-------------------------")
-    for i in range(len(candidateList)):
-        print(f"{candidateList[i]}: {candidatePercent[i]} ({candidateVotes[i]})")
+    for i in myCandidates:
+        print(f"{i}: {str('{:.3%}'.format(myCandidates[i]/totalVotes))} ({myCandidates[i]})")
     print("-------------------------")
     print(f"Winner: {winner}")
     print("-------------------------")
@@ -63,8 +51,8 @@ with open(pybank_csv) as csvfile:
     text.append("-------------------------")
     text.append("Total Votes: " + str(totalVotes))
     text.append("-------------------------")
-    for i in range(len(candidateList)):
-        text.append(candidateList[i] + ": " + candidatePercent[i] + " (" + str(candidateVotes[i]) + ")")
+    for i in myCandidates:
+        text.append(i + ": " + str("{:.3%}".format(myCandidates[i]/totalVotes)) + " (" + str(myCandidates[i])  + ")")
     text.append("-------------------------")
     text.append("Winner: " + winner)
     text.append("-------------------------")
