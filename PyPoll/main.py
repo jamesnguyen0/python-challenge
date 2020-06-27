@@ -56,11 +56,13 @@ with open(pybank_csv) as csvfile:
     text.append("-------------------------")
     text.append("Winner: " + winner)
     text.append("-------------------------")
-    
+
     outputtext = zip(text)
 
 #write files
 output_file = os.path.join("Analysis","PyPoll_analysis.txt")    
 with open(output_file, 'w') as datafile:
-    writer = csv.writer(datafile)
+    writer = csv.writer(datafile, lineterminator='\n')
     writer.writerows(outputtext)
+    
+
